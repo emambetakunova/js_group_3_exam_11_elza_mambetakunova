@@ -60,12 +60,23 @@ export const fetchItemsId = id => {
 };
 
 export const fetchDelete = (id) => {
-    return dispatch => {
-        axios.delete('/items/' + id).then(() => {
-            dispatch({type: DELETE});
-            dispatch(fetchItems());
-        })
-    };
+    return (dispatch, getState) => {
+        const user = getState().user.user;
+        console.log(getState())
+        if(!user) {
+            dispatch(push('/login'))
+        } else {
+            const header = {headers: {'Authorization': user.token}};
+            return axios.delete('/items/' + id, header).then(
+                (response) => {
+                    console.log(response);
+                    dispatch({type: DELETE})
+                },
+                error => {dispatch(fetchItemsFailure(error))}
+            )
+        }
+
+    }
 };
 
 export const sendItem = itemData => {

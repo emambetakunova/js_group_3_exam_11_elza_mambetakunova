@@ -25,7 +25,7 @@ class ItemById extends Component {
                 category={this.props.itemId.category.title}
                 phone={this.props.itemId.user.phoneNumber}
                 user={this.props.itemId.user.displayName}
-                // onClick={this.delete(this.props.itemId._id)}
+                delete={() => this.delete(this.props.itemId._id)}
             />;
         } else {
             item = <p>Loading</p>;
